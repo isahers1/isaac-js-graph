@@ -6,17 +6,6 @@ import { ConfigurationSchema, ensureConfiguration } from "./configuration.js";
 import { TOOLS } from "./tools.js";
 import { loadChatModel } from "./utils.js";
 
-// Define the sleep function
-async function sleepNode(
-  state: typeof MessagesAnnotation.State,
-  config: RunnableConfig,
-): Promise<typeof MessagesAnnotation.Update> {
-  /** Sleep for 20 seconds before proceeding. **/
-  await new Promise(resolve => setTimeout(resolve, 20000));
-  // Return the state unchanged
-  return { messages: [] };
-}
-
 // Define the function that calls the model
 async function callModel(
   state: typeof MessagesAnnotation.State,
@@ -58,14 +47,11 @@ function routeModelOutput(state: typeof MessagesAnnotation.State): string {
 // https://langchain-ai.github.io/langgraphjs/concepts/low_level/#messagesannotation
 const workflow = new StateGraph(MessagesAnnotation, ConfigurationSchema)
   // Define the nodes
-  .addNode("sleep", sleepNode)
   .addNode("callModel", callModel)
   .addNode("tools", new ToolNode(TOOLS))
   // Set the entrypoint as `sleep`
   // This means that this node is the first one called
-  .addEdge("__start__", "sleep")
-  // After sleep, go to callModel
-  .addEdge("sleep", "callModel")
+  .addEdge("__start__", "callModel")
   .addConditionalEdges(
     // First, we define the edges' source node. We use `callModel`.
     // This means these are the edges taken after the `callModel` node is called.
@@ -79,7 +65,13 @@ const workflow = new StateGraph(MessagesAnnotation, ConfigurationSchema)
 
 // Finally, we compile it!
 // This compiles it into a graph you can invoke and deploy.
-export const graph = workflow.compile({
-  interruptBefore: [], // if you want to update the state before calling the tools
-  interruptAfter: [],
-});
+export async function graph() {
+  // Sleep for 20 seconds
+  await new Promise(resolve => setTimeout(resolve, 20000));
+  
+  // Return the compiled workflow
+  return workflow.compile({
+    interruptBefore: [], // if you want to update the state before calling the tools
+    interruptAfter: [],
+  });
+}
