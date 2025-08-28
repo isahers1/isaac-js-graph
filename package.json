@@ -3,10 +3,14 @@
   "version": "0.0.1",
   "packageManager": "yarn@1.22.22",
   "description": "A template containing a LangGraph.js ReAct agent.",
-  "main": "src/react_agent/graph.ts",
+  "main": "apps/react_agent/src/graph.ts",
   "author": "Your Name",
   "license": "MIT",
   "private": true,
+  "workspaces": [
+    "libs/*",
+    "apps/*"
+  ],
   "type": "module",
   "scripts": {
     "build": "tsc",
@@ -17,6 +21,7 @@
     "format": "prettier --write ."
   },
   "dependencies": {
+    "@isaac-js-graph/shared": "workspace:*",
     "@langchain/anthropic": "^0.3.21",
     "@langchain/community": "^0.3.45",
     "@langchain/core": "^0.3.57",

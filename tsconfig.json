@@ -17,7 +17,11 @@
     "strictFunctionTypes": false,
     "outDir": "dist",
     "types": ["jest", "node"],
-    "resolveJsonModule": true
+    "resolveJsonModule": true,
+    "baseUrl": ".",
+    "paths": {
+      "@isaac-js-graph/shared": ["libs/shared/src/index.ts"]
+    }
   },
   "include": ["**/*.ts", "**/*.js"],
   "exclude": ["node_modules", "dist"]

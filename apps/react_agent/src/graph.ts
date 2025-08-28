@@ -7,6 +7,7 @@ import { TOOLS } from "./tools.js";
 import { loadChatModel } from "./utils.js";
 import { BaseMessage } from "@langchain/core/messages";
 import { Annotation } from "@langchain/langgraph";
+import { getDummyMessage, getSharedTimestamp } from "@isaac-js-graph/shared";
 
 const GraphAnnotation = Annotation.Root({
   // Define a 'messages' channel to store an array of BaseMessage objects
@@ -26,6 +27,11 @@ async function callModel(
 ): Promise<typeof GraphAnnotation.Update> {
   /** Call the LLM powering our agent. **/
   const configuration = ensureConfiguration(config);
+  
+  // Call the shared library functions
+  const dummyMessage = getDummyMessage();
+  getSharedTimestamp();
+  
   // Feel free to customize the prompt, model, and other logic!
   const model = (await loadChatModel(configuration.model)).bindTools(TOOLS);
   const response = await model.invoke([
@@ -34,7 +40,7 @@ async function callModel(
       content: configuration.systemPromptTemplate.replace(
         "{system_time}",
         new Date().toISOString(),
-      ),
+      ) + `\n\nShared library message: ${dummyMessage}`,
     },
     ...state.messages,
   ]);
