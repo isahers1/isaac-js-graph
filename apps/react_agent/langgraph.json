@@ -2,7 +2,7 @@
   "node_version": "20",
   "dockerfile_lines": [],
   "graphs": {
-    "agent": "./apps/react_agent/src/graph.ts:graph"
+    "agent": "./src/graph.ts:graph"
   },
-  "env": ".env"
+  "env": "../../.env"
 }
