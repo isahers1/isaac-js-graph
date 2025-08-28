@@ -20,14 +20,6 @@
     "lint": "turbo lint",
     "format": "prettier --write ."
   },
-  "dependencies": {
-    "@isaac-js-graph/shared": "workspace:*",
-    "@langchain/anthropic": "^0.3.21",
-    "@langchain/community": "^0.3.45",
-    "@langchain/core": "^0.3.57",
-    "@langchain/langgraph": "^0.3.0",
-    "langchain": "^0.3.27"
-  },
   "devDependencies": {
     "@eslint/eslintrc": "^3.1.0",
     "@eslint/js": "^9.9.1",

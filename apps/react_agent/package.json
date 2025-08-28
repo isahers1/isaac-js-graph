@@ -11,7 +11,7 @@
     "postinstall": "turbo build"
   },
   "dependencies": {
-    "@isaac-js-graph/shared": "workspace:*",
+    "@isaac-js-graph/shared": "*",
     "@langchain/anthropic": "^0.3.21",
     "@langchain/community": "^0.3.45",
     "@langchain/core": "^0.3.57",
